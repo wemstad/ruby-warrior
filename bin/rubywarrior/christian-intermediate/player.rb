@@ -10,8 +10,10 @@ class Player
   
   def play_turn(warrior)
     # add your code here
-    @warrior = warrior
-    action
+    @warrior = warrior 
+    pre_action
+    action    
+    post_action
   end 
   
   def action
@@ -66,9 +68,22 @@ class Player
     return false
   end 
   
-  def walking
+  def walking 
+    if !@positions.empty?
+      @warrior.walk!(@warrior.direction_of(@positions[0]))
+      return true
+    end
     @warrior.walk!(@warrior.direction_of_stairs)  
     return true
+  end 
+  
+  def pre_action
+    @positions = @warrior.listen
+    puts @positions
+  end
+  
+  def post_action
+    
   end
   
 end
