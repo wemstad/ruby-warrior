@@ -68,14 +68,22 @@ class Player
     return false
   end 
   
-  def walking 
-    if !@positions.empty?
-      @warrior.walk!(@warrior.direction_of(@positions[0]))
-      return true
-    end
-    @warrior.walk!(@warrior.direction_of_stairs)  
+  def walking  
+    @direction = @warrior.direction_of_stairs
+    if !@positions.empty?  
+      @direction = @warrior.direction_of(@positions[0])
+      while @warrior.feel(@direction).stairs? || @warrior.feel(@direction).wall?
+        switch_direction
+      end
+    end      
+    @warrior.walk!(@direction)  
     return true
   end 
+  
+  def switch_direction
+    index = @directions.index(@direction)
+    @direction = @directions.at(index + 1 % @directions.length)
+  end
   
   def pre_action
     @positions = @warrior.listen
