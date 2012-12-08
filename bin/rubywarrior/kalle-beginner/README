@@ -1,20 +1,34 @@
-Level 4
+Level 9
 
-You can hear bow strings being stretched.
+Time to hone your skills and apply all of the abilities that you have learned.
 
-Tip: No new abilities this time, but you must be careful not to rest while taking damage. Save a @health instance variable and compare it on each turn to see if you're taking damage.
+Tip: Watch your back.
 
- -------
-|@ Sa S>|
- -------
+ -----------
+|>Ca  @ S wC|
+ -----------
 
   > = Stairs
   @ = Kalle (20 HP)
-  S = Thick Sludge (24 HP)
+  C = Captive (1 HP)
   a = Archer (7 HP)
+  S = Thick Sludge (24 HP)
+  w = Wizard (3 HP)
 
 
 Warrior Abilities:
+
+  warrior.look
+    Returns an array of up to three Spaces in the given direction (forward by default).
+
+  warrior.shoot!
+    Shoot your bow & arrow in given direction (forward by default).
+
+  warrior.pivot!
+    Rotate :left, :right or :backward (default)
+
+  warrior.rescue!
+    Rescue a captive from his chains (earning 20 points) in given direction (forward by default).
 
   warrior.health
     Returns an integer representing your health.
