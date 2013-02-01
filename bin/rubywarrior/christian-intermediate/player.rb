@@ -33,34 +33,36 @@ class Player
     end
       
   end
-  
+
   def ticking
-     if @is_ticking 
-       if @warrior.feel(@direction).captive?
-         @warrior.rescue!(@direction) 
-         return true
-       end  
-       if !@warrior.feel(@direction).empty? && !@warrior.feel(@direction).wall? && !@warrior.feel(@direction).captive?
-         attacking 
-         return true
-       end    
-       puts is_hurt(0)
-       puts exists_enemies
-       if is_hurt(0) && exists_enemies
-          @warrior.rest!
-          return true
-        end
-       while !@warrior.feel(@direction).empty?  
-         switch_direction
-       end
-       if @direction != nil       
-         @warrior.walk!(@direction)
-         return true
-       end         
-       puts "Failed"
-       return false
-     end
-     return false
+    if @is_ticking 
+      if @warrior.feel(@direction).captive? 
+        @warrior.rescue!(@direction) 
+        return true
+      end 
+      if (@warrior.look(@direction)[0].to_s == "nothing" && @warrior.look(@direction)[1].to_s == "Captive") || (@warrior.look(@direction)[0].to_s == "nothing" && @warrior.look(@direction)[1].to_s == "nothing" && @warrior.look(@direction)[2].to_s == "Captive") 
+        @warrior.walk!(@direction)
+        return true
+      end 
+      if !@warrior.feel(@direction).empty? && !@warrior.feel(@direction).wall? && !@warrior.feel(@direction).captive?
+        attacking 
+        return true
+      end    
+      if is_hurt(0) and exists_enemies 
+        @warrior.rest!
+        return true
+      end
+      while !@warrior.feel(@direction).empty?  
+        switch_direction
+      end
+      if @direction != nil       
+       @warrior.walk!(@direction)
+        return true
+      end         
+      puts "Failed"
+      return false
+    end
+    return false
   end   
   
   def attacking        
@@ -107,7 +109,7 @@ class Player
   end
     
   def resting
-    if @warrior.health != @maxhealth && !@positions.empty? 
+    if @warrior.health <= @maxhealth - 5 && exists_enemies 
       @warrior.rest!
       return true
     end
@@ -146,7 +148,11 @@ class Player
   
   def exists_enemies 
     @positions.each do |position|
-      if position.enemy?
+      regex = /ludge/ 
+      m = regex.match(position.to_s)
+      unless m 
+
+      else 
         return true
       end
     end
@@ -172,7 +178,7 @@ class Player
   end
   
   def post_action
-    
+    puts "DANCE"
   end
-  
+    
 end
